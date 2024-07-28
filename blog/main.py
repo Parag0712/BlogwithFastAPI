@@ -1,16 +1,12 @@
 from fastapi import FastAPI
-from schemas import Blog
+from blog import models,schemas,database
 
 # uvicorn main:app --reload
 # pip install -r requirements.txt
 # https://docs.sqlalchemy.org/en/20/orm/tutorial.html
 app = FastAPI()
 
+models.Base.metadata.create_all(database.engine)
 @app.get("/")
-def index():
+def index(req:schemas.Blog):
     return "app running"
-
-@app.post("/blog")
-def addblog(blog:Blog):
-    return blog
-
